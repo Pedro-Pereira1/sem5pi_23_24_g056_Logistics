@@ -1,0 +1,139 @@
+@startuml
+left to right direction
+
+skinparam actorStyle awesome
+
+actor "UI Campus Manager" as CM
+actor "UI Fleet Manager" as FM
+actor "UI System Manager" as SM
+actor "UI User" as U
+actor "UI Task Manager" as TM
+actor "UI Admin" as ADM
+
+package  RobDroneGo  {
+  usecase "Create Building" as UC1
+  usecase "Edit Building" as UC2
+  usecase "List All Buildings" as UC3
+  usecase "Create Floor of Building" as UC4
+  usecase "Edit Floor of Building" as UC5
+  usecase "List Floors of Building" as UC6
+  usecase "Create Passage Between Buildings" as UC7
+  usecase "Edit Passage Between Buildings" as UC8
+  usecase "List Passages Between Buildings" as UC9
+  usecase "Create Elevator in Building" as UC10
+  usecase "Edit Elevator in Building" as UC11
+  usecase "List Elevators in Building" as UC12
+  usecase "Create Rooms of Floor" as UC13
+  usecase "List Room of Floor" as UC14
+
+  usecase "Add New Robot Type" as UC15
+  usecase "Add New Robot to Fleet" as UC16
+  usecase "Inhibit Robot" as UC17
+  usecase "Consult All Robots" as UC18
+  usecase "Search Robots by Designation or Task" as UC19
+
+  usecase "Deployment of one of the RFP modules in a DEI VM to be systematic, validating on a scheduled basis with the test plan" as UC20
+  usecase "Only customers on the DEI internal network (wired or via VPN) to be able to access the solution" as UC21
+  usecase "The clients indicated in the previous user story to be able to be defined by simply changing a text file" as UC22
+  usecase "Identify and quantify the risks involved in the recommended solution" as UC23
+  usecase "MBCO (Minimum Business Continuity Objective) to be proposed to stakeholders to be defined" as UC24
+  usecase "Backup strategy to be proposed, justified and implemented that minimizes the RPO (Recovery Point Objective) and the WRT (Work Recovery Time)" as UC25
+  usecase "Define a public folder for all users registered in the system" as UC26
+  usecase "Obtain users with more than 3 incorrect accesses" as UC27
+  usecase "Disaster recovery plan that satisfies the MBCO defined in sprint B" as UC28
+  usecase "Changes to be made to the infrastructure to be presented in a justified manner in order to ensure an MTD (Maximum Tolerable Downtime) of 20 minutes" as UC29
+  usecase "Backup copy of the DB(s) to be made to a Cloud environment using a script that renames it to the format <db_name>_yyyymmdd with <db_name> being the name of the database, yyyy the year the copy was made, mm the month the copy was made and dd the day the copy was made" as UC30
+  usecase "Use the Backup created in US 840 to create a script that manages the files resulting from this backup, within the following schedule. 1 Backup per month for the last year, 1 backup per week for the last month, 1 backup per day for the last week" as UC31
+  usecase "DB backup US process to be kept in the Linux log, in an appropriate context, and the administrator is alerted when accessing the console if a serious failure occurs in this process" as UC32
+  usecase "Backup copy of the US of the DB backup to have a lifespan of no more than 7 (seven) days, except as indicated in the US of retention of monthly and annual copies" as UC33
+  usecase "A BIA (Business Impact Analysis) of the final solution to be presented to me, adapting if and where applicable the risk(s) identified in the previous sprint" as UC34
+  usecase "Access management to be implemented that meets the appropriate security criteria" as UC35
+  usecase "Clustering system to be implemented in a justified manner between the systems that implement the SPA" as UC36
+  usecase "Have SSH access to the virtual machine, only through a certificate, without using a password" as UC37
+  usecase "A public file share to be created between the various teams, in SMB/CIFS or NFS format" as UC38
+  usecase "Must ensure that, if necessary, backups were carried out correctly. To do this, we must automate its replacement, ultimately validating the functioning of the system (Ex. Database - execute a successful SQL query after replacement)" as UC39
+
+  usecase "Request Task" as UC40
+
+  usecase "Approve or Deny Request" as UC42
+  usecase "Consult Unapproved Requests" as UC43
+  usecase "Search Requests" as UC44
+  usecase "Get Execution Sequence" as UC45
+
+  usecase "Create User" as UC46
+
+  usecase "Register User" as UC47
+  usecase "Consent to Data Collection and Processing" as UC48
+  usecase "Inform Data Purpose" as UC49
+  usecase "Meet the Person Responsible for Treatment" as UC50
+  usecase "Know Data Retention Period" as UC51
+  usecase "Knowing Rights as a Data Subject" as UC52
+  usecase "Approve or Refuse Registration" as UC53
+  usecase "Rectify/Change Data" as UC54
+  usecase "Get Copy of Data" as UC55
+  usecase "Cancel Account and Delete Data" as UC56
+
+
+}
+CM --> UC1
+CM --> UC2
+CM --> UC3
+CM --> UC4
+CM --> UC5
+CM --> UC6
+CM --> UC7
+CM --> UC8
+CM --> UC9
+CM --> UC10
+CM --> UC11
+CM --> UC12
+CM --> UC13
+CM --> UC14
+
+FM --> UC15
+FM --> UC16
+FM --> UC17
+FM --> UC18
+FM --> UC19
+
+SM --> UC20
+SM --> UC21
+SM --> UC22
+SM --> UC23
+SM --> UC24
+SM --> UC25
+SM --> UC26
+SM --> UC27
+SM --> UC28
+SM --> UC29
+SM --> UC30
+SM --> UC31
+SM --> UC32
+SM --> UC33
+SM --> UC34
+SM --> UC35
+SM --> UC36
+SM --> UC37
+SM --> UC38
+SM --> UC39
+
+U --> UC40
+U --> UC47
+U --> UC48
+U --> UC49
+U --> UC50
+U --> UC51
+U --> UC52
+U --> UC53
+U --> UC54
+U --> UC55
+U --> UC56
+
+TM --> UC42
+TM --> UC43
+TM --> UC44
+TM --> UC45
+
+ADM --> UC46
+
+@enduml

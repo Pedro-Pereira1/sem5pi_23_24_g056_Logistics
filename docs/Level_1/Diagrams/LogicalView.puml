@@ -1,0 +1,18 @@
+@startuml
+
+() "UI Campus Manager" as CM
+() "UI Fleet Manager" as FM
+() "UI System Manager" as SM
+() "UI User" as U
+
+component RDG [
+  <<component>>
+  **RobDroneGo**
+]
+
+CM -d- RDG
+FM -d- RDG
+SM -d- RDG
+U  -d- RDG
+
+@enduml
