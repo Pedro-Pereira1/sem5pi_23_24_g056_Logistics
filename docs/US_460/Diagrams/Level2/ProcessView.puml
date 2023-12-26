@@ -1,0 +1,23 @@
+@startuml
+
+autonumber
+
+participant Visualization
+participant "MasterDataLogistics" as GI
+
+?o-> Visualization: Starts the process to create a task
+activate Visualization
+
+Visualization -> GI: POST task
+activate GI
+
+GI -> GI: createTask(task)
+
+GI --> Visualization: task
+deactivate GI
+
+<-- Visualization: Informs operation success
+deactivate Visualization
+
+
+@enduml
