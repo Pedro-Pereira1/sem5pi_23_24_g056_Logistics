@@ -1,0 +1,42 @@
+@startuml
+
+autonumber
+
+participant ":TaskRoute" as Floor
+participant ":ListTaskController" as Controller
+participant ":ListTaskService" as Service
+participant ":TaskRepo" as Repo
+participant ":TaskMap" as Map
+participant ":TaskDTO" as DTO
+
+?o->Floor: GET
+activate Floor
+
+Floor -> Controller: listTaskByParameter(req, res, next)
+activate Controller
+
+Controller -> Service: listTaskByParameter(parameter)
+activate Service
+
+Service -> Repo: findTaskByParameter(parameter)
+activate Repo
+
+
+Repo --> Service: taskList
+deactivate Repo
+Service -> Map: toDTO(taskList)
+activate Map
+Map -> DTO:create()
+deactivate Map
+
+Service --> Controller: taskListDTO
+deactivate Service
+
+Controller --> Floor: taskListDTO
+deactivate Controller
+
+<--Floor: taskListDTO
+deactivate Floor
+
+
+@enduml
