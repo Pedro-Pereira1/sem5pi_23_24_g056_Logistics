@@ -1,0 +1,74 @@
+@startuml
+
+autonumber
+
+participant ":TaskRoute" as Floor
+participant ":CreateTaskController" as Controller
+participant ":CreateTaskService" as Service
+participant ":Task" as Class
+participant ":TaskRepo" as Repo
+participant ":TaskMapper" as Map
+participant ":TaskPersistence" as FloorPersistence
+participant ":TaskDTO" as DTO
+
+?o->Floor: POST
+activate Floor
+
+Floor -> Controller: createTask(req, res, next)
+activate Controller
+
+
+
+Controller -> Service: createTask(createTaskDTO)
+activate Service
+
+Service -> Class:create
+
+Service -> Repo: save
+activate Repo
+
+Repo -> FloorPersistence: findOne
+activate FloorPersistence
+deactivate FloorPersistence
+
+Repo -> Map: toPersistence
+activate Map
+deactivate Map
+
+
+Repo -> FloorPersistence: create
+activate FloorPersistence
+deactivate FloorPersistence
+
+Repo -> Map: toDomain
+activate Map
+deactivate Map
+
+
+Repo --> Service
+deactivate Repo
+
+Service -> Map: toDTO
+activate Map
+Map -> DTO: create
+activate DTO
+deactivate DTO
+deactivate Map
+
+Service --> Controller:
+deactivate Service
+
+Controller -> DTO: getValue
+activate DTO
+deactivate DTO
+
+Controller -> Controller: res(201,json)
+
+Controller --> Floor: response
+deactivate Controller
+
+<--Floor: response
+deactivate Floor
+
+
+@enduml
