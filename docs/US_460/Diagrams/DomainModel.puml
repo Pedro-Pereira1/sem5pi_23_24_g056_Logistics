@@ -1,0 +1,118 @@
+@startuml domain
+
+skinparam linetype ortho
+
+
+'========================================================
+rectangle #F4EDED{
+class Task << Root >> << Entity >>
+class TaskType << (v,#A4C2E5) ValueObject >>
+class TaskDescription << (v,#A4C2E5) ValueObject >>
+class TaskId << (v,orange) ValueObject >> << unique >>
+class TaskStatus << (v,#A4C2E5) ValueObject >>
+class TaskContact << (v,#A4C2E5) ValueObject >>
+class TaskPickupContact << (v,#A4C2E5) ValueObject >>
+class TaskDeliveryContact << (v,#A4C2E5) ValueObject >>
+class TaskPickupCode << (v,#A4C2E5) ValueObject >>
+}
+
+'========================================================
+rectangle #464D77{
+class Robot << Root >> << Entity >>
+class Drone  << Entity >>
+class MobileRobot  << Entity >>
+
+class Code  << (v,orange) ValueObject >> << unique >>
+class Nickname  << (v,#A4C2E5) ValueObject >>
+class OperationStatus  << (v,#A4C2E5) ValueObject >>
+class SerialNumber  << (v,#A4C2E5) ValueObject >>
+}
+'========================================================
+rectangle #96A377{
+class RobotType << Root >> << Entity >>
+class AvailableTask  << (v,#A4C2E5) ValueObject >>
+class RobotModel  << (v,#A4C2E5) ValueObject >>
+class RobotBrand  << (v,#A4C2E5) ValueObject >>
+class RobotTypeId << (v,orange) ValueObject >> << unique >>
+
+}
+'========================================================
+rectangle #36827F{
+class Building  << Root >> << Entity >>
+class BuildingDescription  << (v,#A4C2E5) ValueObject >>
+class BuildingName  << (v,#A4C2E5) ValueObject >>
+class BuildingCode  << (v,orange) ValueObject >> << unique >>
+class BuildingSize  << (v,#A4C2E5) ValueObject >>
+}
+'========================================================
+rectangle #FF3B1B{
+class Room << Root >> << Entity >>
+class RoomName << (v,orange) ValueObject >> << unique >>
+class RoomCategory << (v,#A4C2E5) ValueObject >>
+class RoomDescription << (v,#A4C2E5) ValueObject >>
+}
+'========================================================
+rectangle #D499B9{
+class Floor  << Root >> << Entity >>
+class FloorId  << (v,orange) ValueObject >> << unique >>
+class FloorDescription  << (v,#A4C2E5) ValueObject >>
+class FloorMap  << Entity >>
+class FloorNumber << (v,#A4C2E5) ValueObject >>
+}
+
+'========================================================
+
+
+Robot <|-u- MobileRobot
+Robot <|-u- Drone
+Robot "1"-l->"1" Code
+Robot "*"-->"1" RobotType
+Robot "*"-d->"1" OperationStatus
+Robot "1"-->"1" Nickname
+Robot "1"-->"1" SerialNumber
+
+RobotType "*"-->"1" RobotModel
+RobotType "*"-->"1" RobotBrand
+RobotType "*"-->"*" AvailableTask
+RobotType "1"-->"1" RobotTypeId
+
+
+
+Task "*"-->"1" TaskType
+Task "*"-->"1" TaskDescription
+Task -> Building
+Task "1"-->"1" TaskId
+Task "*"-->"1" TaskStatus
+Task "*"-->"0..1" TaskContact
+Task "*"-->"0..1" TaskPickupContact
+Task "*"-->"0..1" TaskDeliveryContact
+Task "*"-->"0..1" TaskPickupCode
+Task "*"-->"0..1" Building
+Task "*"-->"0..1" Floor
+Task "*"-->"0..2" Room
+
+
+
+
+Building "1"->"*" Floor
+Building "*"-->"0..1" BuildingDescription
+Building "1"-->"0..1" BuildingName
+Building "*"-->"1" BuildingSize
+Building "1"-->"1" BuildingCode
+
+Room "1"-d->"1" RoomName
+Room "1"-u->"1" RoomCategory
+Room "1"->"1" RoomDescription
+
+
+
+
+Floor "1"-d->"1" FloorMap
+Floor "*"-u>"1" FloorNumber
+Floor "*"->"1" FloorDescription
+Floor "1" -> "1" FloorId
+
+
+FloorMap "1"->"*" Room
+
+@enduml
