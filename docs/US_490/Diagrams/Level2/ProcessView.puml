@@ -1,0 +1,21 @@
+@startuml
+
+autonumber
+
+participant Visualization
+participant "MasterDataLogistics" as GI
+
+?o-> Visualization: Starts the process to list tasks by state/user/robotType.
+activate Visualization
+
+
+Visualization -> GI: GET taskByParameter
+activate GI
+GI --> Visualization: task(JSON)
+deactivate GI
+
+<-- Visualization: Shows task list
+deactivate Visualization
+
+
+@enduml
