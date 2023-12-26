@@ -1,0 +1,12 @@
+@startuml
+
+autonumber
+actor "User" as CM
+
+CM -> System: Starts the process to list tasks by state/user/robotType.
+System --> CM: Request max and min of floors
+CM -> System: Types the data
+CM <-- System: Shows buildings list
+
+
+@enduml
