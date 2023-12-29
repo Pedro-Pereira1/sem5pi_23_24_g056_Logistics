@@ -24,9 +24,7 @@ export default class TaskRepo implements ITaskRepo {
   }
 
   public async save(task: Task): Promise<Task> {
-
-    const query = { taskID: task.id.toString() };
-
+    const query = { id: task.id };
     const taskDocument = await this.taskSchema.findOne(query);
 
     try {
@@ -36,10 +34,6 @@ export default class TaskRepo implements ITaskRepo {
         return TaskMap.toDomain(taskCreated);
 
       } else {
-        if(task.props.taskDescription !== undefined){
-          taskDocument.description = task.props.taskDescription;
-        }
-
         await taskDocument.save();
         return task;
      }
@@ -49,7 +43,7 @@ export default class TaskRepo implements ITaskRepo {
   }
 
   public async findById(id: string): Promise<Task> {
-    const query = { taskID: id.toString() };
+    const query = { id: id.toString() };
     const taskRecord = await this.taskSchema.findOne(query as FilterQuery<ITaskPersistence & Document>);
     if (taskRecord != null) {
       return TaskMap.toDomain(taskRecord);
@@ -58,6 +52,40 @@ export default class TaskRepo implements ITaskRepo {
       return null;
   }
 
+
+public async findSame(task: Task): Promise<Boolean> {
+  let query2 = {};
+  if(task.taskType === "Floor surveillance") {
+    query2 = { 
+      taskDescription: task.props.taskDescription.props.description,
+      taskType: task.props.taskType.props.type,
+      taskState: task.props.taskState.props.state,
+      taskPickupRoom: task.props.taskPickupRoom,
+      taskDeliveryRoom: task.props.taskDeliveryRoom,
+      taskBuilding: task.props.taskBuilding,
+      taskFloor: task.props.taskFloor,
+      taskContact: task.props.taskContact
+    };  
+  } else if(task.taskType === "Object transport") {
+    query2 = { 
+      taskDescription: task.props.taskDescription.props.description,
+      taskType: task.props.taskType.props.type,
+      taskState: task.props.taskState.props.state,
+      taskPickupRoom: task.props.taskPickupRoom,
+      taskDeliveryRoom: task.props.taskDeliveryRoom,
+      taskPickupContact: task.props.taskPickupContact,
+      taskDeliveryContact: task.props.taskDeliveryContact,
+      taskPickupCode: task.props.taskPickupCode.props.code
+    };
+  }
+  const taskDocument2 = await this.taskSchema.findOne(query2);
+
+  if (taskDocument2 !== null) {
+    return true;
+  }
+  else
+    return false;
+  }
   
 
 }
