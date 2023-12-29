@@ -5,6 +5,8 @@ import ICreateTaskService from "../IServices/task/ICreateTaskService";
 import ITaskRepo from "../IRepos/ITaskRepo";
 import ICreateTaskDTO from "../../dto/CreateTaskDTO";
 import ITaskDTO from "../../dto/TaskDTO";
+import { Task } from "../../domain/Task";
+import { TaskMap } from "../../mappers/TaskMap";
 
 @Service()
 export default class CreateTaskService implements ICreateTaskService {
@@ -17,23 +19,19 @@ export default class CreateTaskService implements ICreateTaskService {
     public async createTask(createTaskDTO: ICreateTaskDTO): Promise<Result<ITaskDTO>> {
 
         try {
-            //const robotTypeExists = await this.robotTypeRepo.findById(robotTypeDTO.robotTypeID)
-            //if(robotTypeExists != null){
-            //    return Result.fail<IRobotTypeDTO>("RobotType already exists")
-            //}
-            //
-            //const robotTypeOrError = RobotType.create(robotTypeDTO,robotTypeDTO.robotTypeID)
-            //if (robotTypeOrError.isFailure) {
-            //    return Result.fail<IRobotTypeDTO>(robotTypeOrError.errorValue())
-            //}
-            //
-            //const robotTypeResult = robotTypeOrError.getValue()
-            //await this.robotTypeRepo.save(robotTypeResult);
-            //const robotTypeDtoResult = RobotTypeMap.toDto(robotTypeResult) as IRobotTypeDTO
-            //
-            //return Result.ok<IRobotTypeDTO>(robotTypeDtoResult)
-            return null
-
+            const taskOrError = Task.create(createTaskDTO)
+            if (taskOrError.isFailure) {
+                return Result.fail<ITaskDTO>(taskOrError.errorValue())
+            }
+            const taskResult = taskOrError.getValue()
+            if(await this.taskRepo.findSame(taskResult).valueOf()){
+                return Result.fail<ITaskDTO>("Task already exists")
+            } 
+            
+            await this.taskRepo.save(taskResult);
+            const taskDtoResult = TaskMap.toDto(taskResult) as ITaskDTO
+            
+            return Result.ok<ITaskDTO>(taskDtoResult)
         } catch (e) {
             throw e
         }
