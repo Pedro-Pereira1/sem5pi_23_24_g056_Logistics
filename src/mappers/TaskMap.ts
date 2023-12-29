@@ -23,6 +23,11 @@ export class TaskMap extends Mapper<Task> {
                 taskDeliveryContact: task.props.taskDeliveryContact,
                 taskPickupRoom: task.props.taskPickupRoom,
                 taskDeliveryRoom: task.props.taskDeliveryRoom,
+                taskRequester: task.props.taskRequester,
+                taskRequestDate: task.props.taskRequestDate,
+                taskRobotType: task.props.taskRobotType,
+                taskRobot: task.props.taskRobot,
+                taskPath: task.props.taskPath,
             };
         }
         return {
@@ -38,6 +43,11 @@ export class TaskMap extends Mapper<Task> {
             taskPickupCode: task.props.taskPickupCode.code,
             taskPickupRoom: task.props.taskPickupRoom,
             taskDeliveryRoom: task.props.taskDeliveryRoom,
+            taskRequester: task.props.taskRequester,
+            taskRequestDate: task.props.taskRequestDate,
+            taskRobotType: task.props.taskRobotType,
+            taskRobot: task.props.taskRobot,
+            taskPath: task.props.taskPath,
         };
     }
 
@@ -60,6 +70,11 @@ export class TaskMap extends Mapper<Task> {
                 taskDeliveryContact: task.props.taskDeliveryContact,
                 taskPickupRoom: task.props.taskPickupRoom,
                 taskDeliveryRoom: task.props.taskDeliveryRoom,
+                taskRequester: task.props.taskRequester,
+                taskRequestDate: task.props.taskRequestDate,
+                taskRobotType: task.props.taskRobotType,
+                taskRobot: task.props.taskRobot,
+                taskPath: task.props.taskPath,
             };
         }
         return {
@@ -75,6 +90,11 @@ export class TaskMap extends Mapper<Task> {
             taskPickupCode: task.props.taskPickupCode.code,
             taskPickupRoom: task.props.taskPickupRoom,
             taskDeliveryRoom: task.props.taskDeliveryRoom,
+            taskRequester: task.props.taskRequester,
+                taskRequestDate: task.props.taskRequestDate,
+                taskRobotType: task.props.taskRobotType,
+                taskRobot: task.props.taskRobot,
+                taskPath: task.props.taskPath,
         };
     }
 }

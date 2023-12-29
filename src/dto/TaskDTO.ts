@@ -15,4 +15,11 @@ export default interface ITaskDTO {
     taskPickupContact?: string;
     taskDeliveryContact?: string;
     taskPickupCode?: number;
+
+    taskRequester: string;
+    taskRequestDate: Date;
+    taskRobotType: string;
+    taskRobot: string;
+    taskPath: string[];
+
 }

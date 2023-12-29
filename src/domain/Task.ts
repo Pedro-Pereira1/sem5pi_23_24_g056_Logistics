@@ -23,6 +23,12 @@ interface TaskProps {
     taskDeliveryContact?: string;
     taskPickupCode?: TaskPickupCode;
 
+    taskRequester: string;
+    taskRequestDate: Date;
+    taskRobotType: string;
+    taskRobot: string;
+    taskPath: string[];
+
 
 }
 
@@ -58,6 +64,11 @@ export class Task extends AggregateRoot<TaskProps> {
           taskBuilding: taskDTO.taskBuilding,
           taskFloor: taskDTO.taskFloor,
           taskContact: taskDTO.taskContact,
+          taskRequester: taskDTO.taskRequester,
+          taskRequestDate: taskDTO.taskRequestDate,
+          taskRobotType: null,
+          taskRobot: null,
+          taskPath: null,
         },new TaskID(generateTaskID()))
   
       return Result.ok<Task>(task)
@@ -81,6 +92,11 @@ export class Task extends AggregateRoot<TaskProps> {
           taskPickupContact: taskDTO.taskPickupContact,
           taskDeliveryContact: taskDTO.taskDeliveryContact,
           taskPickupCode: taskPickupCode,
+          taskRequester: taskDTO.taskRequester,
+          taskRequestDate: taskDTO.taskRequestDate,
+          taskRobotType: null,
+          taskRobot: null,
+          taskPath: null,
         },new TaskID(generateTaskID()))
   
       return Result.ok<Task>(task)
@@ -103,6 +119,11 @@ export class Task extends AggregateRoot<TaskProps> {
           taskBuilding: taskDTO.taskBuilding,
           taskFloor: taskDTO.taskFloor,
           taskContact: taskDTO.taskContact,
+          taskRequester: taskDTO.taskRequester,
+          taskRequestDate: taskDTO.taskRequestDate,
+          taskRobotType: taskDTO.taskRobotType,
+          taskRobot: taskDTO.taskRobot,
+          taskPath: taskDTO.taskPath,
         },new TaskID(taskDTO.id))
   
       return Result.ok<Task>(task)
@@ -117,6 +138,11 @@ export class Task extends AggregateRoot<TaskProps> {
           taskDeliveryRoom: taskDTO.taskDeliveryRoom,
           taskPickupContact: taskDTO.taskPickupContact,
           taskDeliveryContact: taskDTO.taskDeliveryContact,
+          taskRequester: taskDTO.taskRequester,
+          taskRequestDate: taskDTO.taskRequestDate,
+          taskRobotType: taskDTO.taskRobotType,
+          taskRobot: taskDTO.taskRobot,
+          taskPath: taskDTO.taskPath,
           taskPickupCode: TaskPickupCode.create({ code:taskDTO.taskPickupCode}).getValue(),
         },new TaskID(taskDTO.id))
   

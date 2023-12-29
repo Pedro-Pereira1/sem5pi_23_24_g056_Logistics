@@ -15,4 +15,10 @@ export default interface ITaskPersistence {
     taskPickupContact?: string;
     taskDeliveryContact?: string;
     taskPickupCode?: number;
+
+    taskRequester: string;
+    taskRequestDate: Date;
+    taskRobotType: string;
+    taskRobot: string;
+    taskPath: string[];
 }

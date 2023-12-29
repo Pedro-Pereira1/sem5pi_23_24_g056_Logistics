@@ -18,7 +18,13 @@ const taskSchema = new mongoose.Schema(
         // Properties for Pickup & Delivery tasks
         taskPickupContact: { type: String },
         taskDeliveryContact: { type: String },
-        taskPickupCode: { type: Number }
+        taskPickupCode: { type: Number },
+
+        taskRequester: { type: String },
+        taskRequestDate: { type: Date },
+        taskRobotType: { type: String },
+        taskRobot: { type: String },
+        taskPath: { type: Array },
     },
     {
         timestamps: true

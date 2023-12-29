@@ -13,4 +13,7 @@ export default interface ICreateTaskDTO {
     taskPickupContact?: string;
     taskDeliveryContact?: string;
     taskPickupCode?: number;
+
+    taskRequester: string;
+    taskRequestDate: Date;
 }
