@@ -21,12 +21,14 @@ export default class CreateTaskController implements ICreateTaskController {
     public async createTask(req: Request, res: Response, next: NextFunction) {
         //@ts-ignore
         let userRole = req.userRole;
+        //@ts-ignore
+        let userId = req.userId;
         if(!this.authService.validatePermission(userRole, ["Utente"])){
             return res.status(401).send("Unauthorized");
         }
 
         try {
-            const taskOrError = await this.service.createTask(req.body as ICreateTaskDTO) as Result<ITaskDTO>
+            const taskOrError = await this.service.createTask(req.body as ICreateTaskDTO, userId) as Result<ITaskDTO>
         
             if (taskOrError.isFailure) {
                 return res.status(400).send(taskOrError.errorValue())
