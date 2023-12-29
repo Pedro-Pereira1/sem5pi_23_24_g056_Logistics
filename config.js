@@ -42,27 +42,32 @@ export default {
   },
 
   controllers: {
-    role: {
-      name: "RoleController",
-      path: "../controllers/roleController"
-    }
+    task: {
+      name: "TaskController",
+      path: "../controllers/task/createTaskController"
+    },
+    auth: {
+      name: "authController",
+      path: "../controllers/auth/AuthController"
+    },
   },
 
   repos: {
-    role: {
-      name: "RoleRepo",
-      path: "../repos/roleRepo"
+    task: {
+      name: "TaskRepo",
+      path: "../repos/taskRepo"
     },
-    user: {
-      name: "UserRepo",
-      path: "../repos/userRepo"
-    }
+    
   },
 
   services: {
-    role: {
-      name: "RoleService",
-      path: "../services/roleService"
-    }
+    task: {
+      name: "TaskService",
+      path: "../services/task/createTaskService"
+    },
+    auth: {
+      name: "authService",
+      path: "../services/auth/AuthService"
+    },
   },
 };

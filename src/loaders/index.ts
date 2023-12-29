@@ -9,53 +9,53 @@ export default async ({ expressApp }) => {
   const mongoConnection = await mongooseLoader();
   Logger.info('✌️ DB loaded and connected!');
 
-  const userSchema = {
-    // compare with the approach followed in repos and services
-    name: 'userSchema',
-    schema: '../persistence/schemas/userSchema',
+
+  const taskSchema = {
+    name: 'taskSchema',
+    schema: '../persistence/schemas/taskSchema',
   };
 
-  const roleSchema = {
-    // compare with the approach followed in repos and services
-    name: 'roleSchema',
-    schema: '../persistence/schemas/roleSchema',
-  };
-
-  const roleController = {
-    name: config.controllers.role.name,
-    path: config.controllers.role.path
+  const authController = {
+    name: config.controllers.auth.name,
+    path: config.controllers.auth.path
   }
 
-  const roleRepo = {
-    name: config.repos.role.name,
-    path: config.repos.role.path
+  const taskController = {
+    name: config.controllers.task.name,
+    path: config.controllers.task.path
   }
 
-  const userRepo = {
-    name: config.repos.user.name,
-    path: config.repos.user.path
+
+  const taskRepo = {
+    name: config.repos.task.name,
+    path: config.repos.task.path
   }
 
-  const roleService = {
-    name: config.services.role.name,
-    path: config.services.role.path
+  const authService = {
+    name: config.services.auth.name,
+    path: config.services.auth.path
+}
+
+  const taskService = {
+    name: config.services.task.name,
+    path: config.services.task.path
   }
 
   await dependencyInjectorLoader({
     mongoConnection,
     schemas: [
-      userSchema,
-      roleSchema
+      taskSchema
     ],
     controllers: [
-      roleController
+      authController,
+      taskController
     ],
     repos: [
-      roleRepo,
-      userRepo
+      taskRepo
     ],
     services: [
-      roleService
+      authService,
+      taskService
     ]
   });
   Logger.info('✌️ Schemas, Controllers, Repositories, Services, etc. loaded');
