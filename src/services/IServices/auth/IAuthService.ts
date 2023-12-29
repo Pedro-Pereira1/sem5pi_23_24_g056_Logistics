@@ -1,4 +1,6 @@
+import { Request } from "express"
+
 export interface IAuthService {
-    validateToken(token: string): boolean
+    validateToken(req: Request): boolean
     validatePermission(userRole: string, permission: string[]): boolean
 }
