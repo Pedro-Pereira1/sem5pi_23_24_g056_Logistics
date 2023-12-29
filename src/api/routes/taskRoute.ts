@@ -15,7 +15,16 @@ export default (app: Router) => {
   route.post('/createTask', validateToken,
     celebrate({
       body: Joi.object({
-        
+        taskDescription: Joi.string().required(),
+        taskType: Joi.string().required(),
+        taskPickupRoom: Joi.string().required(),
+        taskDeliveryRoom: Joi.string().required(),
+        taskBuilding: Joi.string(),
+        taskFloor: Joi.number(),
+        taskContact: Joi.string(),
+        taskPickupContact: Joi.string(),
+        taskDeliveryContact: Joi.string(),
+        taskPickupCode: Joi.number(),        
       })
     }),
     (req, res, next) => ctrl.createTask(req, res, next) );
