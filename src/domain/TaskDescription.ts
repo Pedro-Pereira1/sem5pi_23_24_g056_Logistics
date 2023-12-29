@@ -13,7 +13,7 @@ import { Result } from '../core/logic/Result';
       super(props);
     }
     
-    get model(): string {
+    get description(): string {
       return this.props.description
     }
     
