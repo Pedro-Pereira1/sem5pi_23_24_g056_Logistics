@@ -54,6 +54,9 @@ export class Task extends AggregateRoot<TaskProps> {
 
     if(taskType.type === "Floor surveillance" &&
       taskDTO.taskBuilding !== undefined && taskDTO.taskFloor !== undefined && taskDTO.taskContact !== undefined){
+        if(taskDTO.taskContact.length !== 9){
+          return Result.fail<Task>("Contact number is not valid")
+        }
       const task = new Task(
         {
           taskDescription: taskDescription,
@@ -75,7 +78,9 @@ export class Task extends AggregateRoot<TaskProps> {
 
     }else if(taskType.type === "Object transport" &&
       taskDTO.taskPickupContact !== undefined && taskDTO.taskDeliveryContact !== undefined && taskDTO.taskPickupCode !== undefined){
-    
+        if(taskDTO.taskDeliveryContact.length !== 9 || taskDTO.taskPickupContact.length !== 9){
+          return Result.fail<Task>("Contact number is not valid")
+        }
       const taskPickupCodeOrError = TaskPickupCode.create({ code:taskDTO.taskPickupCode})
       if(taskPickupCodeOrError.isFailure){
             return Result.fail<Task>(taskPickupCodeOrError.errorValue())

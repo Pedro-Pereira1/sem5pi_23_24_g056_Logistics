@@ -21,9 +21,9 @@ export default (app: Router) => {
         taskDeliveryRoom: Joi.string().required(),
         taskBuilding: Joi.string(),
         taskFloor: Joi.number(),
-        taskContact: Joi.string(),
-        taskPickupContact: Joi.string(),
-        taskDeliveryContact: Joi.string(),
+        taskContact: Joi.string().length(9),
+        taskPickupContact: Joi.string().length(9),
+        taskDeliveryContact: Joi.string().length(9),
         taskPickupCode: Joi.number(),        
       })
     }),
