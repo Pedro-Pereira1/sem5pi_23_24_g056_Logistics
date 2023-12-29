@@ -40,6 +40,10 @@ export class Task extends AggregateRoot<TaskProps> {
 
   public static create(taskDTO: ICreateTaskDTO): Result<Task> {
 
+    if(taskDTO.taskPickupRoom === taskDTO.taskDeliveryRoom){
+      return Result.fail<Task>("Pickup and delivery rooms are the same")
+    }
+
     const taskDescriptionOrError = TaskDescription.create({ description:taskDTO.taskDescription})
     if(taskDescriptionOrError.isFailure){
           return Result.fail<Task>(taskDescriptionOrError.errorValue())
