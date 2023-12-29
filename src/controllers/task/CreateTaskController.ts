@@ -4,13 +4,17 @@ import config from "../../../config";
 import { Result } from "../../core/logic/Result";
 import { IAuthService } from "../../services/IServices/auth/IAuthService";
 import ICreateTaskController from "../IControllers/task/ICreateTaskController";
+import ICreateTaskService from "../../services/IServices/task/ICreateTaskService";
+import ITaskDTO from "../../dto/CreateTaskDTO";
+import ICreateTaskDTO from "../../dto/CreateTaskDTO";
 
 
 @Service()
 export default class CreateTaskController implements ICreateTaskController {
     
     constructor(
-        @Inject(config.services.auth.name) private authService: IAuthService
+        @Inject(config.services.auth.name) private authService: IAuthService,
+        @Inject(config.services.task.name) private service: ICreateTaskService
     ) 
     {}
 
@@ -22,14 +26,14 @@ export default class CreateTaskController implements ICreateTaskController {
         }
 
         try {
-            //const buildingOrError = await this.service.createBuilding(req.body as IBuildingDTO) as Result<IBuildingDTO>
-        //
-            //if (buildingOrError.isFailure) {
-            //    return res.status(400).send(buildingOrError.errorValue())
-            //}
-            //
-            //const buildingDTO = buildingOrError.getValue();
-            //return res.status(201).json(buildingDTO);
+            const taskOrError = await this.service.createTask(req.body as ICreateTaskDTO) as Result<ITaskDTO>
+        
+            if (taskOrError.isFailure) {
+                return res.status(400).send(taskOrError.errorValue())
+            }
+            
+            const taskDTO = taskOrError.getValue();
+            return res.status(201).json(taskDTO);
 
         }catch (e){
             return next(e);
