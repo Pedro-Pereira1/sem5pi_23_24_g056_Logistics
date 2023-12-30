@@ -50,6 +50,10 @@ export default {
       name: "authController",
       path: "../controllers/auth/AuthController"
     },
+    acceptRejectTask: {
+      name: "acceptRejectTaskController",
+      path: "../controllers/task/AcceptRejectTaskController"
+    },
   },
 
   repos: {
