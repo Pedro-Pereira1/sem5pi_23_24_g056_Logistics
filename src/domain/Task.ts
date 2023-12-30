@@ -165,7 +165,17 @@ export class Task extends AggregateRoot<TaskProps> {
     return this.props.taskType.type;
   }
 
+  get taskState(): string {
+    return this.props.taskState.state;
+  }
 
+  acceptTask() {
+    this.props.taskState = TaskState.createFromExisting(TaskState.Accepted).getValue()
+  }
+
+  rejectTask() {
+    this.props.taskState = TaskState.createFromExisting(TaskState.Rejected).getValue()
+  }
   
 }
 
