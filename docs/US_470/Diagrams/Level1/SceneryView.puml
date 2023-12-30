@@ -1,0 +1,17 @@
+@startuml
+left to right direction
+
+skinparam actorStyle awesome
+
+actor "Fleet Manager" as FM
+
+
+package  RobDroneGo  {
+
+  usecase "Aprove or deny task" as UC18
+
+}
+
+FM --> UC18
+
+@enduml

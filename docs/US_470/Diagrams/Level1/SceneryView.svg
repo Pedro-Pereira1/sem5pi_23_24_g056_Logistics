@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentStyleType="text/css" height="107px" preserveAspectRatio="none" style="width:352px;height:107px;background:#FFFFFF;" version="1.1" viewBox="0 0 352 107" width="352px" zoomAndPan="magnify"><defs/><g><!--MD5=[1478444cbd0d707d5292787239839939]
+cluster RobDroneGo--><g id="cluster_RobDroneGo"><path d="M144.5,6 L236.5,6 A3.75,3.75 0 0 1 239,8.5 L246,29.6094 L342.5,29.6094 A2.5,2.5 0 0 1 345,32.1094 L345,95.5 A2.5,2.5 0 0 1 342.5,98 L144.5,98 A2.5,2.5 0 0 1 142,95.5 L142,8.5 A2.5,2.5 0 0 1 144.5,6 " fill="none" style="stroke:#000000;stroke-width:1.5;"/><line style="stroke:#000000;stroke-width:1.5;" x1="142" x2="246" y1="29.6094" y2="29.6094"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="91" x="146" y="22.5332">RobDroneGo</text></g><g id="elem_UC18"><ellipse cx="243.2698" cy="61.954" fill="#F1F1F1" rx="85.2698" ry="19.454" style="stroke:#181818;stroke-width:0.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="127" x="179.7698" y="65.6825">Aprove or deny task</text></g><!--MD5=[a89ee74bb4979dbed373b93afc1c36e4]
+entity FM--><g id="elem_FM"><ellipse cx="52" cy="39" fill="#F1F1F1" rx="16" ry="16" style="stroke:#181818;stroke-width:1.5;"/><path d="M52,59 C56,59 59,59 63,55 C71,55 79,63 79,71 L79,75 C79,79 75,83 71,83 L33,83 C29,83 25,79 25,75 L25,71 C25,63 33,55 41,55 C45,59 48,59 52,59 " fill="#F1F1F1" style="stroke:#181818;stroke-width:1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="92" x="6" y="99.0332">Fleet Manager</text></g><!--MD5=[1bd1887c584c9336e9527dad2a977629]
+link FM to UC18--><g id="link_FM_UC18"><path d="M98.39,62 C114.7,62 133.73,62 152.5,62 " fill="none" id="FM-to-UC18" style="stroke:#181818;stroke-width:1.0;"/><polygon fill="#181818" points="157.79,62,148.79,58,152.79,62,148.79,66,157.79,62" style="stroke:#181818;stroke-width:1.0;"/></g><!--MD5=[ed6a30938e3e668f6caf6cdaa13505dd]
+@startuml
+left to right direction
+
+skinparam actorStyle awesome
+
+actor "Fleet Manager" as FM
+
+
+package  RobDroneGo  {
+
+  usecase "Aprove or deny task" as UC18
+
+}
+
+FM - -> UC18
+
+@enduml
+
+PlantUML version 1.2022.7(Mon Aug 22 18:01:30 WEST 2022)
+(GPL source distribution)
+Java Runtime: Java(TM) SE Runtime Environment
+JVM: Java HotSpot(TM) 64-Bit Server VM
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>

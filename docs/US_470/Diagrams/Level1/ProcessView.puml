@@ -1,0 +1,15 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+actor "taskManager" as CM
+
+CM -> System: specify a task to aprove or deny
+activate System
+
+
+System --> CM: confirmation
+deactivate System
+
+
+@enduml

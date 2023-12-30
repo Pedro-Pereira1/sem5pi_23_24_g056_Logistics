@@ -1,0 +1,21 @@
+@startuml
+
+autonumber
+
+participant Visualization
+participant "MasterDataLogistics" as GI
+
+?o-> Visualization: specify a task to aprove or deny
+activate Visualization
+
+Visualization -> GI: PATCH task to aprove or deny
+activate GI
+
+GI --> Visualization: confirmation
+deactivate GI
+
+<-- Visualization: Informs operation success
+deactivate Visualization
+
+
+@enduml

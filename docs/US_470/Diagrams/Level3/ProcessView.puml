@@ -1,0 +1,46 @@
+@startuml ProcessView
+
+autonumber
+participant TaskRoute
+participant AcceptRejectTaskController
+participant AcceptRejectTaskService
+participant TaskRepository
+participant Task
+
+?o-> TaskRoute : PATCH /task
+activate TaskRoute
+
+TaskRoute -> AcceptRejectTaskController : aproveOrDenyTask()
+activate AcceptRejectTaskController
+
+AcceptRejectTaskController -> AcceptRejectTaskService : aproveOrDenyTask()
+activate AcceptRejectTaskService
+
+AcceptRejectTaskService -> TaskRepository : findById()
+activate TaskRepository
+
+TaskRepository -> Task : 
+
+TaskRepository --> AcceptRejectTaskService : Task
+deactivate TaskRepository
+
+AcceptRejectTaskService -> Task : aprove() / deny()
+
+AcceptRejectTaskService -> TaskRepository : save()
+activate TaskRepository
+
+TaskRepository --> AcceptRejectTaskService
+deactivate TaskRepository
+
+AcceptRejectTaskService --> AcceptRejectTaskController : 
+deactivate AcceptRejectTaskService
+
+AcceptRejectTaskController --> TaskRoute : 
+deactivate AcceptRejectTaskController
+
+<-- TaskRoute : 
+
+deactivate TaskRoute
+
+
+@enduml
