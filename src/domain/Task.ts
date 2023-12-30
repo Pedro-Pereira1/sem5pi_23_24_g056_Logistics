@@ -108,8 +108,7 @@ export class Task extends AggregateRoot<TaskProps> {
           taskPath: null,
         },new TaskID(generateTaskID()))
   
-      return Result.ok<Task>(task)
-    
+      return Result.ok<Task>(task) 
     }
     else{
       return Result.fail<Task>("Task data does not match")
@@ -165,17 +164,72 @@ export class Task extends AggregateRoot<TaskProps> {
     return this.props.taskType.type;
   }
 
-  get taskState(): string {
-    return this.props.taskState.state;
-  }
-
   acceptTask() {
     this.props.taskState = TaskState.createFromExisting(TaskState.Accepted).getValue()
   }
 
   rejectTask() {
     this.props.taskState = TaskState.createFromExisting(TaskState.Rejected).getValue()
+  }  get taskDescription(): string {
+    return this.props.taskDescription.description;
   }
+
+  get taskState(): string {
+    return this.props.taskState.state;
+  }
+
+  get taskPickupRoom(): string {
+    return this.props.taskPickupRoom;
+  }
+
+  get taskDeliveryRoom(): string {
+    return this.props.taskDeliveryRoom;
+  }
+
+  get taskBuilding(): string {
+    return this.props.taskBuilding;
+  }
+
+  get taskFloor(): number {
+    return this.props.taskFloor;
+  }
+
+  get taskContact(): string {
+    return this.props.taskContact;
+  }
+
+  get taskPickupContact(): string {
+    return this.props.taskPickupContact;
+  }
+
+  get taskDeliveryContact(): string {
+    return this.props.taskDeliveryContact;
+  }
+
+  get taskPickupCode(): number {
+    return this.props.taskPickupCode.code;
+  }
+
+  get taskRequester(): string {
+    return this.props.taskRequester;
+  }
+
+  get taskRequestDate(): Date {
+    return this.props.taskRequestDate;
+  }
+
+  get taskRobotType(): string {
+    return this.props.taskRobotType;
+  }
+
+  get taskRobot(): string {
+    return this.props.taskRobot;
+  }
+
+  get taskPath(): string[] {
+    return this.props.taskPath;
+  }
+  
   
 }
 
