@@ -34,6 +34,8 @@ export default class TaskRepo implements ITaskRepo {
         return TaskMap.toDomain(taskCreated);
 
       } else {
+        taskDocument.taskState = task.props.taskState.props.state;
+
         await taskDocument.save();
         return task;
      }
