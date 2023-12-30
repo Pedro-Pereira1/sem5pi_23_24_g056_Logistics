@@ -69,5 +69,9 @@ export default {
       name: "authService",
       path: "../services/auth/AuthService"
     },
+    acceptRejectTask: {
+      name: "acceptRejectTaskService",
+      path: "../services/task/AcceptRejectTaskService"
+    },
   },
 };
