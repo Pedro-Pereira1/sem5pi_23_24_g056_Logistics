@@ -118,15 +118,550 @@
 ![ProcessView](Diagrams/Level3/ProcessView.svg)
 
 ### 4.3. Applied Patterns
-
+* Controller
+* Service
+* Repository
+* Mapper
+* DTO
+* GRASP
 
 ### 4.4. Tests
 
+**Test 1:** **Ensure that the `Task.create` method successfully creates a Task instance with valid input for an "Object Transport" task.**
+```
+it('should create a Object transport Task instance with valid input', function () {
+        // Arrange
+        const taskDTO: ICreateTaskDTO  = {
+            "taskDescription" : "Recolha de caneta na secretaria do departamento" ,
+            "taskType" : "Object transport" ,
+            "taskPickupRoom" : "D112" ,
+            "taskDeliveryRoom" : "D113" ,
+            "taskPickupContact" : "912345678" ,
+            "taskDeliveryContact" : "912345679" ,
+            "taskPickupCode" : 1234 ,
+            "taskRequester" : "utente@isep.ipp.pt" ,
+            "taskRequestDate" : new Date()
+        }
+
+        // Act
+        const result = Task.create(taskDTO);
+
+        // Assert
+        assert.ok(result.isSuccess);
+        assert.ok(result.getValue() instanceof Task);
+        assert.strictEqual(result.getValue().taskDescription, taskDTO.taskDescription);
+        assert.strictEqual(result.getValue().taskType, taskDTO.taskType);
+        assert.strictEqual(result.getValue().taskPickupRoom, taskDTO.taskPickupRoom);
+        assert.strictEqual(result.getValue().taskDeliveryRoom, taskDTO.taskDeliveryRoom);
+        assert.strictEqual(result.getValue().taskPickupContact, taskDTO.taskPickupContact);
+        assert.strictEqual(result.getValue().taskDeliveryContact, taskDTO.taskDeliveryContact);
+        assert.strictEqual(result.getValue().taskPickupCode, taskDTO.taskPickupCode);
+        assert.strictEqual(result.getValue().taskRequester, taskDTO.taskRequester);
+        assert.strictEqual(result.getValue().taskRequestDate, taskDTO.taskRequestDate);
+
+    });
+```
+
+**Test 2:** **Ensure that the `Task.create` method successfully creates a Task instance with valid input for a "Floor Surveillance" task.**
+```
+it('should create a Task instance with valid input', function () {
+        // Arrange
+        const taskDTO: ICreateTaskDTO  = {
+            "taskDescription" : "Vigilância do piso 1 do edifício D" ,
+            "taskType" : "Floor surveillance" ,
+            "taskPickupRoom" : "D112" ,
+            "taskDeliveryRoom" : "D113" ,
+            "taskBuilding" : "D" ,
+            "taskFloor" : 1 ,
+            "taskContact" : "912345678" ,
+            "taskRequester" : "utente@isep.ipp.pt" ,
+            "taskRequestDate" : new Date()
+        }
+
+        // Act
+        const result = Task.create(taskDTO);
+
+        // Assert
+        assert.ok(result.isSuccess);
+        assert.ok(result.getValue() instanceof Task);
+        assert.strictEqual(result.getValue().taskDescription, taskDTO.taskDescription);
+        assert.strictEqual(result.getValue().taskType, taskDTO.taskType);
+        assert.strictEqual(result.getValue().taskPickupRoom, taskDTO.taskPickupRoom);
+        assert.strictEqual(result.getValue().taskDeliveryRoom, taskDTO.taskDeliveryRoom);
+        assert.strictEqual(result.getValue().taskBuilding, taskDTO.taskBuilding);
+        assert.strictEqual(result.getValue().taskFloor, taskDTO.taskFloor);
+        assert.strictEqual(result.getValue().taskContact, taskDTO.taskContact);
+        assert.strictEqual(result.getValue().taskRequester, taskDTO.taskRequester);
+        assert.strictEqual(result.getValue().taskRequestDate, taskDTO.taskRequestDate);
+    });
+```
+
+**Test 3:** **Confirm that the `Task.create` method fails to create a Task instance when an invalid task type is provided.**
+```
+it('should fail to create a Task instance with task Type', function () {
+        // Arrange
+        const taskDTO: ICreateTaskDTO  = {
+            "taskDescription" : "Vigilância do piso 1 do edifício D" ,
+            "taskType" : "Surveillance" ,
+            "taskPickupRoom" : "D112" ,
+            "taskDeliveryRoom" : "D113" ,
+            "taskBuilding" : "D" ,
+            "taskFloor" : 1 ,
+            "taskContact" : "912345678" ,
+            "taskRequester" : "utente@isep.ipp.pt" ,
+            "taskRequestDate" : new Date()
+        }
+
+        // Act
+        const result = Task.create(taskDTO);
+
+        // Assert
+        assert.ok(result.isFailure);
+        assert.strictEqual(result.errorValue(), "Task not available");
+    });
+```
+
+**Test 4:** **Confirm that the `Task.create` method fails to create a Task instance when essential data is missing.**
+```
+it('should fail to create a Task instance with missing data', function () {
+        // Arrange
+        const taskDTO: ICreateTaskDTO  = {
+            "taskDescription" : "Vigilância do piso 1 do edifício D" ,
+            "taskType" : "Floor surveillance" ,
+            "taskPickupRoom" : "D112" ,
+            "taskDeliveryRoom" : "D113" ,
+            "taskBuilding" : "D" ,
+            "taskContact" : "912345678" ,
+            "taskRequester" : "utente@isep.ipp.pt" ,
+            "taskRequestDate" : new Date()
+        }
+
+        // Act
+        const result = Task.create(taskDTO);
+
+        // Assert
+        assert.ok(result.isFailure);
+        assert.strictEqual(result.errorValue(), "Task data does not match");
+    });
+```
+
+**Test 5:** **Validate that the `Task.create` method fails when the pickup and delivery rooms are the same.**
+```
+it('should fail to create a Task instance with same taskPickupRoom and taskDeliveryRoom', function () {
+        // Arrange
+        const taskDTO: ICreateTaskDTO  = {
+            "taskDescription" : "Vigilância do piso 1 do edifício D" ,
+            "taskType" : "Floor surveillance" ,
+            "taskPickupRoom" : "D112" ,
+            "taskDeliveryRoom" : "D112" ,
+            "taskBuilding" : "D" ,
+            "taskFloor" : 1 ,
+            "taskContact" : "912345678" ,
+            "taskRequester" : "utente@isep.ipp.pt" ,
+            "taskRequestDate" : new Date()
+        }
+
+        // Act
+        const result = Task.create(taskDTO);
+
+        // Assert
+        assert.ok(result.isFailure);
+        assert.strictEqual(result.errorValue(), "Pickup and delivery rooms are the same");
+    });
+```
+
+**Test 6:** **Confirm that the `Task.create` method fails when the task description exceeds the allowed length.**
+```
+it('should fail to create a Task instance with invalid Description', function () {
+        // Arrange
+        const taskDTO: ICreateTaskDTO  = {
+            "taskDescription" : "Vigilância do piso 1 do edifício D".repeat(100) ,
+            "taskType" : "Floor surveillance" ,
+            "taskPickupRoom" : "D112" ,
+            "taskDeliveryRoom" : "D111" ,
+            "taskBuilding" : "D" ,
+            "taskFloor" : 1 ,
+            "taskContact" : "912345678" ,
+            "taskRequester" : "utente@isep.ipp.pt" ,
+            "taskRequestDate" : new Date()
+        }
+
+        // Act
+        const result = Task.create(taskDTO);
+
+        // Assert
+        assert.ok(result.isFailure);
+        assert.strictEqual(result.errorValue(), "Task description must be 1-1000 characters");
+    });
+```
+
+**Test 7:** **Confirm that the `Task.create` method fails when an invalid contact number is provided.**
+```
+it('should fail to create a Task instance with invalid taskContact', function () {
+        // Arrange
+        const taskDTO: ICreateTaskDTO  = {
+            "taskDescription" : "Vigilância do piso 1 do edifício D" ,
+            "taskType" : "Floor surveillance" ,
+            "taskPickupRoom" : "D112" ,
+            "taskDeliveryRoom" : "D111" ,
+            "taskBuilding" : "D" ,
+            "taskFloor" : 1 ,
+            "taskContact" : "9123456781" ,
+            "taskRequester" : "utente@isep.ipp.pt" ,
+            "taskRequestDate" : new Date()
+        }
+
+        // Act
+        const result = Task.create(taskDTO);
+
+        // Assert
+        assert.ok(result.isFailure);
+        assert.strictEqual(result.errorValue(), "Contact number is not valid");
+    });
+```
+
+**Test 8:** **Ensure that the `Task.create` method fails when either the pickup or delivery contact number is invalid.**
+```
+it('should fail to create a Task instance with invalid taskPickupContact and taskDeliveryContact', function () {
+        // Arrange
+        const taskDTO: ICreateTaskDTO  = {
+            "taskDescription" : "Recolha de caneta na secretaria do departamento" ,
+            "taskType" : "Object transport" ,
+            "taskPickupRoom" : "D112" ,
+            "taskDeliveryRoom" : "D113" ,
+            "taskPickupContact" : "912345678" ,
+            "taskDeliveryContact" : "9123456791" ,
+            "taskPickupCode" : 1234 ,
+            "taskRequester" : "utente@isep.ipp.pt" ,
+            "taskRequestDate" : new Date()
+        }
+
+        // Act
+        const result = Task.create(taskDTO);
+
+        // Assert
+        assert.ok(result.isFailure);
+        assert.strictEqual(result.errorValue(), "Contact number is not valid");
+    });
+```
+
+**Test 9:** **Validate that the `Task.create` method fails when an invalid pickup code is provided.**
+```
+it('should fail to create a Task instance with invalid taskPickupCode', function () {
+        // Arrange
+        const taskDTO: ICreateTaskDTO  = {
+            "taskDescription" : "Recolha de caneta na secretaria do departamento" ,
+            "taskType" : "Object transport" ,
+            "taskPickupRoom" : "D112" ,
+            "taskDeliveryRoom" : "D113" ,
+            "taskPickupContact" : "912345678" ,
+            "taskDeliveryContact" : "912345679" ,
+            "taskPickupCode" : 1234567 ,
+            "taskRequester" : "utente@isep.ipp.pt" ,
+            "taskRequestDate" : new Date()
+        }
+
+        // Act
+        const result = Task.create(taskDTO);
+
+        // Assert
+        assert.ok(result.isFailure);
+        assert.strictEqual(result.errorValue(), "Task pickup code must be 4-6 digits");
+    });
+```
+
+**Test 10:** **Verify that the `CreateTaskController` correctly processes and responds to a valid task creation request.**
+```
+it('createRobotTypeController unit test using createRobotTypeService stub', async function () {
+        // Arrange
+        let body = {
+            "taskType": "Object transport",
+            "taskDescription": "Recolha de caneta na secretaria do departamento",
+            "taskPickupContact": "912345678",
+            "taskDeliveryContact": "912345678",
+            "taskPickupCode": 1234,
+            "taskPickupRoom": "Secretaria",
+            "taskDeliveryRoom": "Sala de aula 1",
+        };
+        let req: Partial<Request> = {};
+          req.body = body;
+          req.params = {
+            userRole: "Utente",
+            userEmail: "utente@isep.ipp.pt"
+          }
+        let res: Partial<Response> = {
+          json: sinon.spy(),
+          status: sinon.stub().returnsThis(),
+          send: sinon.spy()
+        };
+        let next: Partial<NextFunction> = () => {};
+
+        const taskDTO: ITaskDTO = {
+            "id": "1",
+            "taskDescription": "Recolha de caneta na secretaria do departamento",
+            "taskType": "Object transport",
+            "taskPickupRoom": "Secretaria",
+            "taskDeliveryRoom": "Sala de aula 1",
+            "taskBuilding": "",
+            "taskFloor": 0,
+            "taskContact": "",
+            "taskPickupContact": "912345678",
+            "taskDeliveryContact": "912345678",
+            "taskPickupCode": 1234,
+            "taskRequester": "utente@isep.ipp.pt",
+            "taskRequestDate": new Date(),
+            "taskState": "Pending",
+            "taskRobotType": "",
+            "taskRobot": "",
+            "taskPath": []
+        };
+
+
+
+        let createTaskServiceInstance = Container.get("createTaskService");
+        sinon.stub(createTaskServiceInstance, "createTask").returns(Promise.resolve(Result.ok<ITaskDTO>(taskDTO)));
+
+        let authServicesInstance = Container.get("authService");
+        sinon.stub(authServicesInstance, "validateToken").returns(true);
+        sinon.stub(authServicesInstance, "validatePermission").returns(true);
+
+        const ctrl = new CreateTaskController(authServicesInstance as IAuthService,createTaskServiceInstance as ICreateTaskService);
+
+        // Act
+
+        await ctrl.createTask(<Request>req, <Response>res, <NextFunction>next);
+
+
+        // Assert
+        sinon.assert.calledOnce(res.json);
+        sinon.assert.calledWith(res.json, sinon.match(taskDTO));
+
+    });
+```
+
+**Test 11:** **Validate the interaction between the `CreateTaskController` and `CreateTaskService` when attempting to create a task that already exists.**
+```
+it("createTaskController +createTaskService integration test Repetead Task", async function() {
+        // Arrange
+        let body = {
+            "taskType": "Object transport",
+            "taskDescription": "Recolha de caneta na secretaria do departamento",
+            "taskPickupContact": "912345678",
+            "taskDeliveryContact": "912345678",
+            "taskPickupCode": 1234,
+            "taskPickupRoom": "Secretaria",
+            "taskDeliveryRoom": "Sala de aula 1",
+        };
+        let req: Partial<Request> = {        };
+            req.body = body;
+            req.params = {
+              userRole: "Utente",
+              userEmail: "utente@isep.ipp.pt"
+            }
+        let res: Partial<Response> = {
+          json: sinon.spy(),
+          status: sinon.stub().returnsThis(),
+          send: sinon.spy()
+        };
+        let next: Partial<NextFunction> = () => {};
+
+        // Stub repo methods
+        const taskDTO: ITaskDTO = {
+            "id": "1",
+            "taskDescription": "Recolha de caneta na secretaria do departamento",
+            "taskType": "Object transport",
+            "taskPickupRoom": "Secretaria",
+            "taskDeliveryRoom": "Sala de aula 1",
+            "taskBuilding": "",
+            "taskFloor": 0,
+            "taskContact": "",
+            "taskPickupContact": "912345678",
+            "taskDeliveryContact": "912345678",
+            "taskPickupCode": 1234,
+            "taskRequester": "utente@isep.ipp.pt",
+            "taskRequestDate": new Date(),
+            "taskState": "Pending",
+            "taskRobotType": "",
+            "taskRobot": "",
+            "taskPath": []
+        };
+
+        taskRepoMock.findSame.resolves(null);
+
+        let createTaskServiceInstance = Container.get("createTaskService");
+        const createTaskServiceSpy = sinon.spy(createTaskServiceInstance, "createTask");
+
+        let authServicesInstance = Container.get("authService");
+        sinon.stub(authServicesInstance, "validateToken").returns(true);
+        sinon.stub(authServicesInstance, "validatePermission").returns(true);
+
+
+
+        const ctrl = new CreateTaskController(authServicesInstance as IAuthService,createTaskServiceInstance as ICreateTaskService);
+
+        // Act
+        await ctrl.createTask(<Request>req, <Response>res, <NextFunction>next);
+
+        // Assert
+        sinon.assert.calledOnce(res.json);
+        sinon.assert.calledWith(res.json, sinon.match((value) => {
+            return value.hasOwnProperty('id') && value.hasOwnProperty('taskRequestDate');
+          }));
+        sinon.assert.calledWith(res.json, sinon.match.has("taskBuilding", undefined)
+            .and(sinon.match.has("taskContact", undefined))
+            .and(sinon.match.has("taskDeliveryContact", "912345678"))
+            .and(sinon.match.has("taskDeliveryRoom", "Sala de aula 1"))
+            .and(sinon.match.has("taskDescription", "Recolha de caneta na secretaria do departamento"))
+            .and(sinon.match.has("taskFloor", undefined))
+            .and(sinon.match.has("taskPath", null))
+            .and(sinon.match.has("taskPickupCode", 1234))
+            .and(sinon.match.has("taskPickupContact", "912345678"))
+            .and(sinon.match.has("taskPickupRoom", "Secretaria"))
+            .and(sinon.match.has("taskRequester", undefined))
+            .and(sinon.match.has("taskRobot", null))
+            .and(sinon.match.has("taskRobotType", null))
+            .and(sinon.match.has("taskState", "Pending"))
+            .and(sinon.match.has("taskType", "Object transport")));
+        sinon.assert.calledOnce(createTaskServiceSpy);
+
+      });
+```
+
+**Test 12:** **Validate the interaction between the `CreateTaskController` and `CreateTaskService` when attempting to create a unique task successfully.**
+```
+it("createTaskController +createTaskService integration test", async function() {
+        // Arrange
+        let body = {
+            "taskType": "Object transport",
+            "taskDescription": "Recolha de caneta na secretaria do departamento",
+            "taskPickupContact": "912345678",
+            "taskDeliveryContact": "912345678",
+            "taskPickupCode": 1234,
+            "taskPickupRoom": "Secretaria",
+            "taskDeliveryRoom": "Sala de aula 1",
+        };
+        let req: Partial<Request> = {        };
+            req.body = body;
+            req.params = {
+              userRole: "Utente",
+              userEmail: "utente@isep.ipp.pt"
+            }
+        let res: Partial<Response> = {
+          json: sinon.spy(),
+          status: sinon.stub().returnsThis(),
+          send: sinon.spy()
+        };
+        let next: Partial<NextFunction> = () => {};
+
+        // Stub repo methods
+        const taskDTO: ITaskDTO = {
+            "id": "1",
+            "taskDescription": "Recolha de caneta na secretaria do departamento",
+            "taskType": "Object transport",
+            "taskPickupRoom": "Secretaria",
+            "taskDeliveryRoom": "Sala de aula 1",
+            "taskBuilding": "",
+            "taskFloor": 0,
+            "taskContact": "",
+            "taskPickupContact": "912345678",
+            "taskDeliveryContact": "912345678",
+            "taskPickupCode": 1234,
+            "taskRequester": "utente@isep.ipp.pt",
+            "taskRequestDate": new Date(),
+            "taskState": "Pending",
+            "taskRobotType": "",
+            "taskRobot": "",
+            "taskPath": []
+        };
+
+        taskRepoMock.findSame.resolves(taskDTO);
+
+        let createTaskServiceInstance = Container.get("createTaskService");
+        const createTaskServiceSpy = sinon.spy(createTaskServiceInstance, "createTask");
+
+        let authServicesInstance = Container.get("authService");
+        sinon.stub(authServicesInstance, "validateToken").returns(true);
+        sinon.stub(authServicesInstance, "validatePermission").returns(true);
+
+
+
+        const ctrl = new CreateTaskController(authServicesInstance as IAuthService,createTaskServiceInstance as ICreateTaskService);
+
+        // Act
+        await ctrl.createTask(<Request>req, <Response>res, <NextFunction>next);
+
+        // Assert
+        sinon.assert.calledOnce(createTaskServiceSpy);
+        sinon.assert.calledOnce(res.status);
+        sinon.assert.calledWith(res.status,400);
+        sinon.assert.calledOnce(res.send);
+        sinon.assert.calledWith(res.send, sinon.match("Task already exists"));
+      });
+```
 
 ## 5. Implementation
 
+#### [CreateTaskController](../../Controllers/CreateTaskController.ts)
+```
+public async createTask(req: Request, res: Response, next: NextFunction) {
+        if(!this.authService.validateToken(req)){
+            return res.status(401).send("Unauthorized");
+        }
+
+        //@ts-ignore
+        let userRole = req.userRole;
+        //@ts-ignore
+        let userId = req.userId;
+        if(!this.authService.validatePermission(userRole, ["Utente"])){
+            return res.status(401).send("Unauthorized");
+        }
+
+        try {
+            const taskOrError = await this.service.createTask(req.body as ICreateTaskDTO, userId) as Result<ITaskDTO>
+
+            if (taskOrError.isFailure) {
+                return res.status(400).send(taskOrError.errorValue())
+            }
+
+            const taskDTO = taskOrError.getValue();
+            return res.status(201).json(taskDTO);
+
+        }catch (e){
+            return next(e);
+        }
+    }
+```
+
+#### [CreateTaskService](../../Services/CreateTaskService.ts)
+```
+public async createTask(createTaskDTO: ICreateTaskDTO, requester: string): Promise<Result<ITaskDTO>> {
+
+        try {
+            createTaskDTO.taskRequester = requester;
+            createTaskDTO.taskRequestDate = new Date();
+
+            const taskOrError = Task.create(createTaskDTO)
+            if (taskOrError.isFailure) {
+                return Result.fail<ITaskDTO>(taskOrError.errorValue())
+            }
+            const taskResult = taskOrError.getValue()
+            if(await this.taskRepo.findSame(taskResult).valueOf()){
+                return Result.fail<ITaskDTO>("Task already exists")
+            }
+
+            await this.taskRepo.save(taskResult);
+            const taskDtoResult = TaskMap.toDto(taskResult) as ITaskDTO
+
+            return Result.ok<ITaskDTO>(taskDtoResult)
+        } catch (e) {
+            throw e
+        }
+    }
+```
+
+
 
 ## 6. Integration/Demonstration
-
+![](Diagrams/demo.gif)
 
 ## 7. Observations
