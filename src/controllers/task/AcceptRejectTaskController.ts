@@ -4,13 +4,16 @@ import config from "../../../config";
 import { Result } from "../../core/logic/Result";
 import { IAuthService } from "../../services/IServices/auth/IAuthService";
 import IAcceptRejectTaskController from "../IControllers/task/IAcceptRejectTaskController";
+import { IAcceptRejectTaskService } from "../../services/IServices/task/IAcceptRejectTaskService";
+import { AcceptRejectTaskDTO } from "../../dto/AcceptRejectTaskDTO";
 
 
 @Service()
 export default class AcceptRejectTaskController implements IAcceptRejectTaskController {
     
     constructor(
-        @Inject(config.services.auth.name) private authService: IAuthService
+        @Inject(config.services.auth.name) private authService: IAuthService,
+        @Inject(config.services.acceptRejectTask.name) private taskService: IAcceptRejectTaskService
     ) 
     {}
 
@@ -26,15 +29,12 @@ export default class AcceptRejectTaskController implements IAcceptRejectTaskCont
         }
 
         try {
-            //const buildingOrError = await this.service.createBuilding(req.body as IBuildingDTO) as Result<IBuildingDTO>
-        //
-            //if (buildingOrError.isFailure) {
-            //    return res.status(400).send(buildingOrError.errorValue())
-            //}
-            //
-            //const buildingDTO = buildingOrError.getValue();
-            //return res.status(201).json(buildingDTO);
-
+            const dto = req.body as AcceptRejectTaskDTO
+            const result = await this.taskService.acceptOrRejectTask(dto)
+            if(result.isFailure) {
+                return res.status(400).send(result.errorValue())
+            }
+            return res.status(200).send(result.getValue())
         }catch (e){
             return next(e);
         }

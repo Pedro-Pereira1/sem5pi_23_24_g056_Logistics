@@ -3,6 +3,7 @@ import  config  from "../../../config";
 import ITaskRepo from "../IRepos/ITaskRepo";
 import { IAcceptRejectTaskService } from "../IServices/task/IAcceptRejectTaskService";
 import { Result } from "../../core/logic/Result";
+import { AcceptRejectTaskDTO } from "../../dto/AcceptRejectTaskDTO";
 
 @Service()
 export class AcceptRejectTaskService implements IAcceptRejectTaskService {
@@ -11,12 +12,12 @@ export class AcceptRejectTaskService implements IAcceptRejectTaskService {
         @Inject(config.repos.task.name) private taskRepo: ITaskRepo,
     ) { }
     
-    public async acceptOrRejectTask(taskID: string, accept: boolean): Promise<Result<boolean>> {
-        const task = await this.taskRepo.findById(taskID)
+    public async acceptOrRejectTask(dto: AcceptRejectTaskDTO): Promise<Result<boolean>> {
+        const task = await this.taskRepo.findById(dto.taskID)
         if (task === null) {
             return Result.fail<boolean>("Task not found")
         }
-        accept ? task.acceptTask() : task.rejectTask()
+        dto.accept ? task.acceptTask() : task.rejectTask()
         await this.taskRepo.save(task)
         return Result.ok<boolean>(true)
     }

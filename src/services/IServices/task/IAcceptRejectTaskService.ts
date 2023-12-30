@@ -1,5 +1,6 @@
 import { Result } from "../../../core/logic/Result";
+import { AcceptRejectTaskDTO } from "../../../dto/AcceptRejectTaskDTO";
 
 export interface IAcceptRejectTaskService {
-    acceptOrRejectTask(taskID: string, accept: boolean): Promise<Result<boolean>>
+    acceptOrRejectTask(acceptRejectTaskDTO: AcceptRejectTaskDTO): Promise<Result<boolean>>
 }
