@@ -25,6 +25,10 @@ export default async ({ expressApp }) => {
     path: config.controllers.task.path
   }
 
+  const acceptRejectTaskController = {
+    name: config.controllers.acceptRejectTask.name,
+    path: config.controllers.acceptRejectTask.path
+  }
 
   const taskRepo = {
     name: config.repos.task.name,
@@ -41,6 +45,11 @@ export default async ({ expressApp }) => {
     path: config.services.task.path
   }
 
+  const acceptRejectTaskService = {
+    name: config.services.acceptRejectTask.name,
+    path: config.services.acceptRejectTask.path
+  }
+
   await dependencyInjectorLoader({
     mongoConnection,
     schemas: [
@@ -48,14 +57,16 @@ export default async ({ expressApp }) => {
     ],
     controllers: [
       authController,
-      taskController
+      taskController,
+      acceptRejectTaskController
     ],
     repos: [
       taskRepo
     ],
     services: [
       authService,
-      taskService
+      taskService,
+      acceptRejectTaskService
     ]
   });
   Logger.info('✌️ Schemas, Controllers, Repositories, Services, etc. loaded');
