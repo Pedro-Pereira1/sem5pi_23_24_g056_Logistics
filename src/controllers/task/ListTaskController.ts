@@ -42,6 +42,10 @@ export default class ListTaskController implements IListTaskController {
 
 
     public async listNotApprovedTasks(req: Request, res: Response, next: NextFunction) {
+        if(!this.authService.validateToken(req)){
+            return res.status(401).send("Unauthorized");
+        }
+
         //@ts-ignore
         let userRole = req.userRole;
         if(!this.authService.validatePermission(userRole, ["TaskManager"])){
