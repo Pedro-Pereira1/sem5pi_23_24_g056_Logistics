@@ -54,6 +54,10 @@ export default {
       name: "acceptRejectTaskController",
       path: "../controllers/task/AcceptRejectTaskController"
     },
+    listTasks: {
+      name: "listTasksController",
+      path: "../controllers/task/ListTaskController"
+    },
   },
 
   repos: {
@@ -76,6 +80,10 @@ export default {
     acceptRejectTask: {
       name: "acceptRejectTaskService",
       path: "../services/task/AcceptRejectTaskService"
+    },
+    listAllTasks: {
+      name: "listAllTasksService",
+      path: "../services/task/ListAllTasksService"
     },
   },
 };
