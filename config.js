@@ -14,7 +14,7 @@ export default {
   /**
    * Your favorite port : optional change to 4001 by JRT
    */
-  port: parseInt(process.env.PORT, 10) || 4001, 
+  port: parseInt(process.env.PORT, 10) || 4001,
 
   /**
    * That long string from mlab
@@ -58,6 +58,10 @@ export default {
       name: "listTasksController",
       path: "../controllers/task/ListTaskController"
     },
+    listTask: {
+      name: "listTaskController",
+      path: "../controllers/task/ListTaskController"
+    },
   },
 
   repos: {
@@ -65,7 +69,7 @@ export default {
       name: "TaskRepo",
       path: "../repos/taskRepo"
     },
-    
+
   },
 
   services: {
@@ -84,6 +88,10 @@ export default {
     listAllTasks: {
       name: "listAllTasksService",
       path: "../services/task/ListAllTasksService"
+    },
+    listTask: {
+      name: "listTaskService",
+      path: "../services/task/ListPendingTaskService"
     },
   },
 };
