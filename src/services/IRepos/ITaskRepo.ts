@@ -6,4 +6,5 @@ export default interface ITaskRepo extends Repo<Task> {
     save(task: Task): Promise<Task>
     findById(id: string): Promise<Task>
     findSame(task: Task): Promise<Boolean>
+    findAll(): Promise<Task[]>
 }

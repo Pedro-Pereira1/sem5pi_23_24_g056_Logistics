@@ -89,5 +89,15 @@ public async findSame(task: Task): Promise<Boolean> {
     return false;
   }
   
+  public async findAll(): Promise<Task[]> {
+    let tasks: Task[] = []
+
+    const cursor = this.taskSchema.find<Task>({});
+
+    for await (let doc of cursor) {
+        tasks.push(await TaskMap.toDomain(doc))
+    }
+    return tasks
+}
 
 }
