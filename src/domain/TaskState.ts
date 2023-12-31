@@ -12,6 +12,7 @@ export class TaskState extends ValueObject<TaskStateProps> {
   public static readonly Pending: string = "Pending"
   public static readonly Accepted: string = "Accepted"
   public static readonly Rejected: string = "Rejected"
+  public static readonly Done: string = "Done"
 
   constructor(props: TaskStateProps) {
     super(props);
