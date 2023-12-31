@@ -10,7 +10,8 @@ import { IAuthService } from "../../services/IServices/auth/IAuthService";
 export default class ListTaskController implements IListTaskController {
     
     constructor(
-        @Inject(config.services.auth.name) private authService: IAuthService
+        @Inject(config.services.auth.name) private authService: IAuthService,
+        @Inject(config.services.listAllTasks.name) private listAllTaskService,
     ) 
     {}
 
@@ -62,6 +63,30 @@ export default class ListTaskController implements IListTaskController {
             //const buildingDTO = buildingOrError.getValue();
             //return res.status(201).json(buildingDTO);
 
+        }catch (e){
+            return next(e);
+        }
+    }
+
+    public async listAllTasks(req: Request, res: Response, next: NextFunction) {
+        if(!this.authService.validateToken(req)){
+            return res.status(401).send("Unauthorized");
+        }
+
+        //@ts-ignore
+        let userRole = req.userRole;
+        if(!this.authService.validatePermission(userRole, ["TaskManager"])){
+            return res.status(401).send("Unauthorized");
+        }
+
+        try {
+            const tasks = await this.listAllTaskService.listAllTasks()
+
+            if(tasks.isFailure) {
+                return res.status(400).send()
+            }
+
+            return res.status(200).json(tasks.getValue())
         }catch (e){
             return next(e);
         }
