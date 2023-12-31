@@ -1,0 +1,36 @@
+@startuml ProcessView
+
+autonumber
+participant TaskRoute
+participant ListTaskController
+participant ListPendingTaskService
+participant TaskRepository
+
+?o-> TaskRoute : GET /listPendingTasks
+activate TaskRoute
+
+TaskRoute -> ListTaskController : listPendingTasks()
+activate ListTaskController
+
+ListTaskController -> ListPendingTaskService : listPendingTasks()
+activate ListPendingTaskService
+
+ListPendingTaskService -> TaskRepository : findAllPending()
+activate TaskRepository
+
+
+TaskRepository --> ListPendingTaskService : Task[]
+deactivate TaskRepository
+
+ListPendingTaskService --> ListTaskController :
+deactivate ListPendingTaskService
+
+ListTaskController --> TaskRoute :
+deactivate ListTaskController
+
+<-- TaskRoute :
+
+deactivate TaskRoute
+
+
+@enduml

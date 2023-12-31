@@ -1,0 +1,21 @@
+@startuml
+
+autonumber
+
+participant Visualization
+participant "MasterDataLogistics" as GI
+
+?o-> Visualization: Starts the process to list pending tasks.
+activate Visualization
+
+
+Visualization -> GI: GET listPendingTasks()
+activate GI
+GI --> Visualization: list of tasks
+deactivate GI
+
+<-- Visualization: Shows list of pending tasks
+deactivate Visualization
+
+
+@enduml

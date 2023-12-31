@@ -1,0 +1,10 @@
+@startuml
+
+autonumber
+actor "User" as CM
+
+CM -> System: Starts the process to list all pending tasks.
+CM <-- System: Shows the list of pending tasks.
+
+
+@enduml
