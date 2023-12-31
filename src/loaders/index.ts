@@ -30,9 +30,9 @@ export default async ({ expressApp }) => {
     path: config.controllers.acceptRejectTask.path
   }
 
-  const ListTaskController = {
-    name: config.controllers.listTasks.name,
-    path: config.controllers.listTasks.path
+  const listTaskController = {
+    name: config.controllers.listTask.name,
+    path: config.controllers.listTask.path
   }
 
   const taskRepo = {
@@ -55,6 +55,11 @@ export default async ({ expressApp }) => {
     path: config.services.acceptRejectTask.path
   }
 
+  const listTaskService = {
+    name: config.services.listTask.name,
+    path: config.services.listTask.path
+  }
+
   const listAllTaskService = {
     name: config.services.listAllTasks.name,
     path: config.services.listAllTasks.path
@@ -69,7 +74,7 @@ export default async ({ expressApp }) => {
       authController,
       taskController,
       acceptRejectTaskController,
-      ListTaskController
+      listTaskController
     ],
     repos: [
       taskRepo
@@ -78,7 +83,8 @@ export default async ({ expressApp }) => {
       authService,
       taskService,
       acceptRejectTaskService,
-      listAllTaskService
+      listAllTaskService,
+      listTaskService
     ]
   });
   Logger.info('✌️ Schemas, Controllers, Repositories, Services, etc. loaded');

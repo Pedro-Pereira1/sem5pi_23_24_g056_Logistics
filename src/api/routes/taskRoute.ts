@@ -4,7 +4,7 @@ import config from "../../../config";
 import ICreateTaskController from '../../controllers/IControllers/task/ICreateTaskController';
 import { Joi, celebrate } from 'celebrate';
 import AcceptRejectTaskController from '../../controllers/task/AcceptRejectTaskController';
-import IListTaskController from '../../controllers/IControllers/task/IListTaskController';
+import IListTaskController from "../../controllers/IControllers/task/IListTaskController";
 
 const route = Router();
 
@@ -12,8 +12,8 @@ export default (app: Router) => {
   app.use('/tasks', route);
 
   const ctrl = Container.get(config.controllers.task.name) as ICreateTaskController;
-  const listCtrl = Container.get(config.controllers.listTasks.name) as IListTaskController;
   const acceptRejectTaskController = Container.get(config.controllers.acceptRejectTask.name) as AcceptRejectTaskController;
+  const ctrlList = Container.get(config.controllers.listTask.name) as IListTaskController;
 
   route.post('/createTask',
     celebrate({
@@ -27,7 +27,7 @@ export default (app: Router) => {
         taskContact: Joi.string().length(9),
         taskPickupContact: Joi.string().length(9),
         taskDeliveryContact: Joi.string().length(9),
-        taskPickupCode: Joi.number(),        
+        taskPickupCode: Joi.number(),
       })
     }),
     (req, res, next) => ctrl.createTask(req, res, next) );
@@ -40,8 +40,12 @@ export default (app: Router) => {
       })
     }), (req, res, next) => acceptRejectTaskController.acceptRejectTask(req, res, next))
 
+    route.get('/listPendingTasks', (req, res, next) => {
+      ctrlList.listPendingTasks(req, res, next)
+    });
+
     route.get('/listAllTasks', (req, res, next) => {
-      listCtrl.listAllTasks(req, res, next)
+      ctrlList.listAllTasks(req, res, next)
     });
 
 };
