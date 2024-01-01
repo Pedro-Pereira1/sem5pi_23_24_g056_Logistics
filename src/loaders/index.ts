@@ -65,6 +65,11 @@ export default async ({ expressApp }) => {
     path: config.services.listAllTasks.path
   }
 
+  const searchTaskService = {
+    name: config.services.searchTask.name,
+    path: config.services.searchTask.path
+  }
+
   await dependencyInjectorLoader({
     mongoConnection,
     schemas: [
@@ -84,7 +89,8 @@ export default async ({ expressApp }) => {
       taskService,
       acceptRejectTaskService,
       listAllTaskService,
-      listTaskService
+      listTaskService,
+      searchTaskService
     ]
   });
   Logger.info('✌️ Schemas, Controllers, Repositories, Services, etc. loaded');

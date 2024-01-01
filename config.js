@@ -93,5 +93,9 @@ export default {
       name: "listTaskService",
       path: "../services/task/ListPendingTaskService"
     },
+    searchTask: {
+      name: "searchTaskService",
+      path: "../services/task/SearchTaskService"
+    },
   },
 };
