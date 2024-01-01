@@ -146,7 +146,7 @@ public async findSame(task: Task): Promise<Boolean> {
     query.taskRequestDate.$lte = tomorrow;
   }
 
-  console.log(query);
+  //console.log(query);
 
     const cursor = this.taskSchema.find<Task>(query);
 

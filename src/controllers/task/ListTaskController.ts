@@ -33,7 +33,7 @@ export default class ListTaskController implements IListTaskController {
 
         try {
             const { robotTypeID, taskState, user, initialDate, finalDate } = req.params;
-            console.log(robotTypeID, taskState, user, initialDate, finalDate)
+            //console.log(robotTypeID, taskState, user, initialDate, finalDate)
             const taskOrError = await this.searchTaskService.searchTask(robotTypeID, taskState, user, initialDate, finalDate)
             if (taskOrError.isFailure) {
                 return res.status(400).send(taskOrError.error)
