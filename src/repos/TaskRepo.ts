@@ -108,6 +108,52 @@ public async findSame(task: Task): Promise<Boolean> {
         tasks.push(await TaskMap.toDomain(doc))
     }
     return tasks
-}
+  }
+
+  public async searchTask(robotTypeID: string, taskState: string, user: string, initialDate: string, finalDate: string): Promise<Task[]> {
+    let tasks: Task[] = []
+    let query: any = {};
+
+  if (robotTypeID !== "null") {
+    query.robotTypeID = robotTypeID;
+  }
+
+  if (taskState !== "null") {
+    query.taskState = taskState;
+  }
+
+  if (user !== "null") {
+    query.user = user;
+  }
+
+  if (initialDate !== "null") {
+    query.taskRequestDate = query.taskRequestDate || {};
+    query.taskRequestDate.$gte = new Date(initialDate);
+  }else{
+    let tenYearsAgo = new Date();
+    tenYearsAgo.setFullYear(tenYearsAgo.getFullYear() - 10);
+    query.taskRequestDate = query.taskRequestDate || {};
+    query.taskRequestDate.$gte = new Date(tenYearsAgo);
+  }
+
+  if (finalDate !== "null") {
+    query.taskRequestDate = query.taskRequestDate || {};
+    query.taskRequestDate.$lte =  new Date(finalDate);
+  }else{
+    let tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    query.taskRequestDate = query.taskRequestDate || {};
+    query.taskRequestDate.$lte = tomorrow;
+  }
+
+  console.log(query);
+
+    const cursor = this.taskSchema.find<Task>(query);
+
+    for await (let doc of cursor) {
+        tasks.push(await TaskMap.toDomain(doc))
+    }
+    return tasks
+  }
 
 }

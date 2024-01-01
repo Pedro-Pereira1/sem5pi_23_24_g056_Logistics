@@ -8,5 +8,6 @@ export default interface ITaskRepo extends Repo<Task> {
     findAllPending(): Promise<Task[]>
     findSame(task: Task): Promise<Boolean>
     findAll(): Promise<Task[]>
+    searchTask(robotTypeID: string, taskState: string, user: string, initialDate: string, finalDate: string): Promise<Task[]>
 }
 
