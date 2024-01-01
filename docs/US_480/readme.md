@@ -77,7 +77,180 @@
 
 ### 4.3. Tests
 
+**Test 1:** **Tests the controller using a stub service with a valid user.**
+```
+it('1. controller with stub service valid', async () => {
+    const task = pendingTask.getValue()
+    const task2 = pendingTask2.getValue()
 
+    const result = [task, task2]
+
+    let body = { };
+    let req: Partial<Request> = {};
+    req.body = body;
+    req.params = {
+      userRole: "TaskManager",
+      userEmail: "taskmanager@isep.ipp.pt",
+      robotTypeID: "1",
+      taskState: "Pending",
+      user: "utente@isep.ipp.pt",
+      initialDate: "null",
+      finalDate: "null",
+    }
+      let res: Partial<Response> = {
+      json: sinon.spy(),
+      status: sinon.stub().returnsThis(),
+      send: sinon.spy()
+    };
+    let next: Partial<NextFunction> = () => { }
+
+    let authServicesInstance = Container.get("authService");
+    sinon.stub(authServicesInstance, "validateToken").returns(true);
+    sinon.stub(authServicesInstance, "validatePermission").returns(true);
+
+    const listPendingTaskService = Container.get('listTaskService')
+    sinon.stub(listPendingTaskService, 'listPendingTasks').returns(new Promise((resolve, reject) => {
+      resolve(Result.ok<Task[]>(result))
+    }))
+
+    const controller = Container.get('listTasksController') as ListTaskController
+
+    await controller.listPendingTasks(<Request>req, <Response>res, <NextFunction>next)
+
+    sinon.assert.calledOnce(res.status)
+    sinon.assert.calledWith(res.status, 200)
+    sinon.assert.calledOnce(res.json)
+    sinon.assert.calledWith(res.json, sinon.match(result))
+  })
+```
+
+**Test 2:** **Tests the controller using a stub service but no tasks.**
+```
+it('2. controller with stub service no tasks', async () => {
+    let req: Partial<Request> = {}
+    let res: Partial<Response> = {
+      status: sinon.stub().returnsThis(),
+      send: sinon.spy()
+    }
+    let next: Partial<NextFunction> = () => { }
+
+    const listPendingTaskService = Container.get('listTaskService') as ListPendingTaskService
+    sinon.stub(listPendingTaskService, 'listPendingTasks').returns(new Promise((resolve, reject) => {
+      resolve(Result.fail<Task[]>('null'))
+    }))
+
+    const controller = Container.get('listTasksController') as ListTaskController
+
+    await controller.listPendingTasks(<Request>req, <Response>res, <NextFunction>next)
+
+    sinon.assert.calledOnce(res.status)
+    sinon.assert.calledWith(res.status, 400)
+    sinon.assert.calledOnce(res.send)
+  })
+```
+
+**Test 3:** **Tests the service with a valid stub repo.**
+```
+it('3. Service with stub repo valid', async () => {
+    const task = pendingTask.getValue()
+    const task2 = pendingTask2.getValue()
+
+    const taskRes1 =TaskMap.toDto(task)
+    const taskRes2 =TaskMap.toDto(task2)
+
+    const expected = [taskRes1, taskRes2]
+
+    const repoReturns = [task, task2]
+
+    const taskRepo = Container.get('TaskRepo')
+    sinon.stub(taskRepo, 'findAllPending').returns(new Promise((resolve, reject) => {
+      resolve(repoReturns)
+    }))
+
+    const listPendingTaskService = Container.get('listTaskService') as ListPendingTaskService
+    const result = await listPendingTaskService.listPendingTasks()
+
+    sinon.assert.match(result.getValue(), expected)
+  })
+```
+
+**Test 4:** **Tests the service with a valid stub repo but no tasks.**
+```
+it('4. Service with stub repo no tasks', async () => {
+    const taskRepo = Container.get('TaskRepo')
+    sinon.stub(taskRepo, 'findAllPending').returns(new Promise((resolve, reject) => {
+      resolve([])
+    }))
+
+    const listPendingTaskService = Container.get('listTaskService') as ListPendingTaskService
+    const result = await listPendingTaskService.listPendingTasks()
+
+    sinon.assert.match(result.isFailure, true)
+  })
+```
+
+**Test 5:** **Tests the controller and service integration using a valid stub repo.**
+```
+it('5. Controller + Service with stub repo valid', async () => {
+    const task = pendingTask.getValue()
+    const task2 = pendingTask2.getValue()
+
+    const taskRes1 =TaskMap.toDto(task)
+    const taskRes2 =TaskMap.toDto(task2)
+
+    const expected = [taskRes1, taskRes2]
+
+    const repoReturns = [task, task2]
+
+    let req: Partial<Request> = {}
+    let res: Partial<Response> = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.spy()
+    }
+    let next: Partial<NextFunction> = () => { }
+
+    const taskRepo = Container.get('TaskRepo')
+    sinon.stub(taskRepo, 'findAllPending').returns(new Promise((resolve, reject) => {
+      resolve(repoReturns)
+    }))
+
+    const listPendingTaskService = Container.get('listTaskService') as ListPendingTaskService
+    const controller = Container.get('listTasksController') as ListTaskController
+
+    await controller.listPendingTasks(<Request>req, <Response>res, <NextFunction>next)
+
+    sinon.assert.calledOnce(res.status)
+    sinon.assert.calledWith(res.status, 200)
+    sinon.assert.calledOnce(res.json)
+    sinon.assert.calledWith(res.json, sinon.match(expected))
+  })
+```
+
+**Test 6:** **Tests the controller and service integration using a valid stub repo but no tasks.**
+```
+it('6. Controller + Service with stub repo no tasks', async () => {
+    const taskRepo = Container.get('TaskRepo')
+    sinon.stub(taskRepo, 'findAllPending').returns(new Promise((resolve, reject) => {
+      resolve([])
+    }))
+
+    let req: Partial<Request> = {}
+    let res: Partial<Response> = {
+      status: sinon.stub().returnsThis(),
+      send: sinon.spy()
+    }
+    let next: Partial<NextFunction> = () => { }
+
+    const listPendingTaskService = Container.get('listTaskService') as ListPendingTaskService
+    const controller = Container.get('listTasksController') as ListTaskController
+
+    await controller.listPendingTasks(<Request>req, <Response>res, <NextFunction>next)
+
+    sinon.assert.calledOnce(res.status)
+    sinon.assert.calledWith(res.status, 400)
+    sinon.assert.calledOnce(res.send)
+  })
+```
 
 ## 5. Implementation
 
