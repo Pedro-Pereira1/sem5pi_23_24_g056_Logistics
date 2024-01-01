@@ -13,7 +13,7 @@ export default (app: Router) => {
 
   const ctrl = Container.get(config.controllers.task.name) as ICreateTaskController;
   const acceptRejectTaskController = Container.get(config.controllers.acceptRejectTask.name) as AcceptRejectTaskController;
-  const ctrlList = Container.get(config.controllers.listTask.name) as IListTaskController;
+  const ctrlList = Container.get(config.controllers.listTasks.name) as IListTaskController;
 
   route.post('/createTask',
     celebrate({
