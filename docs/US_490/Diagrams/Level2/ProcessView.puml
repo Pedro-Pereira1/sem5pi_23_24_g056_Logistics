@@ -9,7 +9,7 @@ participant "MasterDataLogistics" as GI
 activate Visualization
 
 
-Visualization -> GI: GET taskByParameter
+Visualization -> GI: GET searchTasks
 activate GI
 GI --> Visualization: task(JSON)
 deactivate GI

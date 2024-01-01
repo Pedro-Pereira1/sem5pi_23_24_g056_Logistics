@@ -4,7 +4,7 @@ autonumber
 
 participant ":TaskRoute" as Floor
 participant ":ListTaskController" as Controller
-participant ":ListTaskService" as Service
+participant ":SearchTaskService" as Service
 participant ":TaskRepo" as Repo
 participant ":TaskMap" as Map
 participant ":TaskDTO" as DTO
@@ -12,13 +12,13 @@ participant ":TaskDTO" as DTO
 ?o->Floor: GET
 activate Floor
 
-Floor -> Controller: listTaskByParameter(req, res, next)
+Floor -> Controller: searchTasks(req, res, next)
 activate Controller
 
-Controller -> Service: listTaskByParameter(parameter)
+Controller -> Service: searchTasks(robotTypeID, taskState, user, initialDate, finalDate)
 activate Service
 
-Service -> Repo: findTaskByParameter(parameter)
+Service -> Repo: searchTasks(robotTypeID, taskState, user, initialDate, finalDate)
 activate Repo
 
 
