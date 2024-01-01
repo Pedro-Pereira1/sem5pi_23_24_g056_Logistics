@@ -48,4 +48,8 @@ export default (app: Router) => {
       ctrlList.listAllTasks(req, res, next)
     });
 
+    route.get('/searchTask/:robotTypeID/:taskState/:user/:initialDate/:finalDate', (req, res, next) => {
+      ctrlList.searchTask(req, res, next)
+    });
+
 };
