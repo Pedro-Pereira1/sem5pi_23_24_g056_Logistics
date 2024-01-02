@@ -123,7 +123,7 @@ public async findSame(task: Task): Promise<Boolean> {
   }
 
   if (user !== "null") {
-    query.user = user;
+    query.taskRequester = user;
   }
 
   if (initialDate !== "null") {
@@ -146,7 +146,7 @@ public async findSame(task: Task): Promise<Boolean> {
     query.taskRequestDate.$lte = tomorrow;
   }
 
-  //console.log(query);
+  console.log(query);
 
     const cursor = this.taskSchema.find<Task>(query);
 
