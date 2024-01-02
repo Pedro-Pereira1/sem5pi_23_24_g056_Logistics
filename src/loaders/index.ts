@@ -31,8 +31,8 @@ export default async ({ expressApp }) => {
   }
 
   const listTaskController = {
-    name: config.controllers.listTask.name,
-    path: config.controllers.listTask.path
+    name: config.controllers.listTasks.name,
+    path: config.controllers.listTasks.path
   }
 
   const taskRepo = {

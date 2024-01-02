@@ -58,10 +58,6 @@ export default {
       name: "listTasksController",
       path: "../controllers/task/ListTaskController"
     },
-    listTask: {
-      name: "listTaskController",
-      path: "../controllers/task/ListTaskController"
-    },
   },
 
   repos: {
