@@ -27,7 +27,7 @@ interface TaskProps {
     taskRequestDate: Date;
     taskRobotType: string;
     taskRobot: string;
-    taskPath: string[];
+    taskPath: number[][][];
 
 
 }
@@ -174,6 +174,10 @@ export class Task extends AggregateRoot<TaskProps> {
     return this.props.taskDescription.description;
   }
 
+  updateTaskPath(path: number[][][]) {
+    this.props.taskPath = path;
+  }
+
   get taskState(): string {
     return this.props.taskState.state;
   }
@@ -226,7 +230,7 @@ export class Task extends AggregateRoot<TaskProps> {
     return this.props.taskRobot;
   }
 
-  get taskPath(): string[] {
+  get taskPath(): number[][][] {
     return this.props.taskPath;
   }
   

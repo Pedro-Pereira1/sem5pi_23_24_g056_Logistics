@@ -24,7 +24,7 @@ const taskSchema = new mongoose.Schema(
         taskRequestDate: { type: Date },
         taskRobotType: { type: String },
         taskRobot: { type: String },
-        taskPath: { type: Array },
+        taskPath: { type: [[[Number]]] },
     },
     {
         timestamps: true

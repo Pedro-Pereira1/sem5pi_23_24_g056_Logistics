@@ -35,6 +35,7 @@ export default class TaskRepo implements ITaskRepo {
 
       } else {
         taskDocument.taskState = task.props.taskState.props.state;
+        taskDocument.taskPath = task.props.taskPath;
 
         await taskDocument.save();
         return task;

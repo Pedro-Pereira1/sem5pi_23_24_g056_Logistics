@@ -20,6 +20,6 @@ export default interface ITaskDTO {
     taskRequestDate: Date;
     taskRobotType: string;
     taskRobot: string;
-    taskPath: string[];
+    taskPath: number[][][];
 
 }

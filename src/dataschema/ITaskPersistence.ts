@@ -20,5 +20,5 @@ export default interface ITaskPersistence {
     taskRequestDate: Date;
     taskRobotType: string;
     taskRobot: string;
-    taskPath: string[];
+    taskPath: number[][][];
 }

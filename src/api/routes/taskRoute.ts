@@ -5,6 +5,7 @@ import ICreateTaskController from '../../controllers/IControllers/task/ICreateTa
 import { Joi, celebrate } from 'celebrate';
 import AcceptRejectTaskController from '../../controllers/task/AcceptRejectTaskController';
 import IListTaskController from "../../controllers/IControllers/task/IListTaskController";
+import path from 'path';
 
 const route = Router();
 
@@ -37,6 +38,7 @@ export default (app: Router) => {
       body: Joi.object({
         taskID: Joi.string().required(),
         accept: Joi.boolean().required(),
+        path: Joi.array().items(Joi.array().items(Joi.array().items(Joi.number().required()).required()).required()).required()
       })
     }), (req, res, next) => acceptRejectTaskController.acceptRejectTask(req, res, next))
 
