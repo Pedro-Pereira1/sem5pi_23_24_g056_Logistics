@@ -38,7 +38,7 @@ export default (app: Router) => {
       body: Joi.object({
         taskID: Joi.string().required(),
         accept: Joi.boolean().required(),
-        path: Joi.array().items(Joi.array().items(Joi.array().items(Joi.number().required()).required()).required()).required()
+        path: Joi.required(),
       })
     }), (req, res, next) => acceptRejectTaskController.acceptRejectTask(req, res, next))
 
