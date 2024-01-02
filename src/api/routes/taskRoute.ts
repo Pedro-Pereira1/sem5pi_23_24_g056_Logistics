@@ -54,4 +54,8 @@ export default (app: Router) => {
       ctrlList.searchTask(req, res, next)
     });
 
+    route.get('/listAcceptedTasks', (req, res, next) => {
+      ctrlList.listAcceptedTasks(req, res, next)
+    })
+
 };

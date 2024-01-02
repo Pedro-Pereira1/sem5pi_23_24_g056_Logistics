@@ -96,4 +96,28 @@ export default class ListTaskController implements IListTaskController {
           throw e;
         }
     }
+
+    public async listAcceptedTasks(req: Request, res: Response, next: NextFunction) {
+        if(!this.authService.validateToken(req)){
+            return res.status(401).send("Unauthorized");
+        }
+
+        //@ts-ignore
+        let userRole = req.userRole;
+        if(!this.authService.validatePermission(userRole, ["TaskManager"])){
+            return res.status(401).send("Unauthorized");
+        }
+        
+        try {
+            const tasks = await this.listAllTaskService.listAcceptedTasks()
+
+            if(tasks.isFailure) {
+                return res.status(400).send()
+            }
+
+            return res.status(200).json(tasks.getValue())
+        }catch (e){
+            throw e;
+        }
+    }
 }

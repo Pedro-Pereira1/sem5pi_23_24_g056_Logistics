@@ -7,6 +7,7 @@ import config from "../../../config";
 import { TaskState } from "../../domain/TaskState";
 import { Task } from "../../domain/Task";
 
+// nao funciona ns pq
 @Service()
 export default class AcceptRejectTaskService implements IAcceptRejectTaskService {
 
