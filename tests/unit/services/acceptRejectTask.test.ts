@@ -61,7 +61,7 @@ describe('acceptRejectTask', () => {
     }))
     sinon.stub(taskRepo, 'save').returns(null)
     const service = Container.get('AcceptRejectTaskService') as AcceptRejectTaskService
-    const result = await service.acceptOrRejectTask({ taskID: task.id.toString(), accept: true })
+    const result = await service.acceptOrRejectTask({ taskID: task.id.toString(), accept: true, path: [[[1,2]]] })
     sinon.assert.match(result.isSuccess, true)
   })
 
