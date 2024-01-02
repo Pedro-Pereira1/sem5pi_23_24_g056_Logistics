@@ -115,7 +115,7 @@ public async findSame(task: Task): Promise<Boolean> {
     let query: any = {};
 
   if (robotTypeID !== "null") {
-    query.robotTypeID = robotTypeID;
+    query.taskRobotType = robotTypeID;
   }
 
   if (taskState !== "null") {
